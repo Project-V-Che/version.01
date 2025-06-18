@@ -1,180 +1,307 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { 
-  ArrowLeftIcon, 
-  PaperAirplaneIcon, 
-  PaperClipIcon, 
-  EllipsisHorizontalIcon,
-  CheckIcon,
-  MagnifyingGlassIcon
-} from '@heroicons/react/24/outline';
-
-const conversations = [
-  {
-    id: 1,
-    name: 'John Smith',
-    avatar: '/avatars/john.jpg',
-    lastMessage: 'Thanks for your booking! Here are the check-in instructions...',
-    time: '2h ago',
-    unread: 2,
-    online: true,
-    messages: [
-      { id: 1, sender: 'them', text: 'Hi there!', time: '10:30 AM' },
-      { id: 2, sender: 'me', text: 'Hello! I have a question about my booking.', time: '10:32 AM' },
-      { id: 3, sender: 'them', text: 'Sure, I\'d be happy to help! What would you like to know?', time: '10:33 AM' },
-      { id: 4, sender: 'me', text: 'What time is check-in and check-out?', time: '10:35 AM' },
-      { id: 5, sender: 'them', text: 'Check-in is at 3 PM and check-out is at 11 AM.', time: '10:40 AM' },
-      { id: 6, sender: 'them', text: 'Thanks for your booking! Here are the check-in instructions...', time: '2h ago' },
-    ]
-  },
-  {
-    id: 2,
-    name: 'Sarah Wilson',
-    avatar: '/avatars/sarah.jpg',
-    lastMessage: 'The apartment is available for your selected dates.',
-    time: '1d ago',
-    unread: 0,
-    online: false,
-    messages: []
-  },
-  {
-    id: 3,
-    name: 'Michael Brown',
-    avatar: '/avatars/michael.jpg',
-    lastMessage: 'We offer a 10% discount for weekly stays.',
-    time: '3d ago',
-    unread: 0,
-    online: true,
-    messages: []
-  },
-];
+import React, { useState } from 'react';
+import { PaperAirplaneIcon, PaperClipIcon, DotsHorizontalIcon } from '@heroicons/react/outline';
 
 const MessagesPage = () => {
-  const [selectedChat, setSelectedChat] = useState(conversations[0]);
+  const [selectedChat, setSelectedChat] = useState(0);
   const [message, setMessage] = useState('');
-  const chatContainerRef = useRef(null);
 
-  useEffect(() => {
-    if (chatContainerRef.current) {
-      chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
-    }
-  }, [selectedChat]);
+  const conversations = [
+    {
+      id: 1,
+      name: 'John Smith',
+      avatar: '/avatars/john.jpg',
+      lastMessage: 'Thanks for your booking! Here are the check-in instructions...',
+      time: '2h ago',
+      unread: 2,
+      online: true,
+      messages: [
+        { id: 1, sender: 'them', text: 'Hi there!', time: '10:30 AM' },
+        { id: 2, sender: 'me', text: 'Hello! I have a question about my booking.', time: '10:32 AM' },
+        { id: 3, sender: 'them', text: 'Sure, what would you like to know?', time: '10:33 AM' },
+      ],
+    },
+    // Additional conversation examples
+    {
+      id: 2,
+      name: 'Sarah Johnson',
+      avatar: '/avatars/sarah.jpg',
+      lastMessage: 'Your reservation is confirmed!',
+      time: '1d ago',
+      unread: 0,
+      online: false,
+      messages: [
+        { id: 1, sender: 'them', text: 'Hello! Your booking is confirmed.', time: 'Yesterday' },
+      ],
+    },
+  ];
+
+  const currentChat = conversations[selectedChat] || conversations[0];
 
   const handleSendMessage = (e) => {
     e.preventDefault();
-    if (!message.trim()) return;
-    console.log('Sending message:', message);
-    setMessage('');
+    if (message.trim()) {
+      // In a real app, you would send the message to your backend here
+      console.log('Sending message:', message);
+      setMessage('');
+    }
+  };
+
+  const handleKeyDown = (e, index) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      setSelectedChat(index);
+    }
   };
 
   return (
-    <div className="flex h-full">
+    <div className="flex h-[calc(100vh-4rem)] bg-gray-100">
       {/* Sidebar */}
-      <div className={`w-full md:w-96 border-r border-white/10 bg-black ${selectedChat ? 'hidden md:flex' : 'flex'} flex-col`}>
-        <div className="p-4 border-b border-white/10 sticky top-0 bg-black z-10">
-          <h1 className="text-xl font-bold text-white">Messages</h1>
-          <div className="relative mt-4">
-            <MagnifyingGlassIcon className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-white/40" />
-            <input type="text" placeholder="Search messages..." className="w-full bg-white/5 border border-white/10 rounded-lg py-2 pl-10 pr-4 text-white placeholder:text-white/40 focus:outline-none focus:ring-1 focus:ring-white/40 transition" />
-          </div>
+      <nav 
+        className="w-full md:w-1/3 border-r border-gray-200 bg-white flex flex-col" 
+        aria-label="Conversations"
+      >
+        <div className="p-4 border-b border-gray-200">
+          <h1 className="text-xl font-semibold">Messages</h1>
         </div>
-        <div className="overflow-y-auto flex-1">
-          {conversations.map((conv) => (
-            <div 
-              key={conv.id}
-              className={`flex items-center p-4 border-b border-white/10 cursor-pointer transition-colors ${
-                selectedChat?.id === conv.id ? 'bg-white/10' : 'hover:bg-white/5'
+        <div className="flex-1 overflow-y-auto">
+          {conversations.map((convo, index) => (
+            <div
+              key={convo.id}
+              role="button"
+              tabIndex={0}
+              className={`flex items-center p-4 border-b border-gray-100 cursor-pointer hover:bg-gray-50 ${
+                selectedChat === index ? 'bg-blue-50' : ''
               }`}
-              onClick={() => setSelectedChat(conv)}
+              onClick={() => setSelectedChat(index)}
+              onKeyDown={(e) => handleKeyDown(e, index)}
+              aria-current={selectedChat === index ? 'true' : undefined}
             >
               <div className="relative">
-                <img src={conv.avatar} alt={conv.name} className="w-12 h-12 rounded-full object-cover bg-gray-700" />
-                {conv.online && <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-black"></div>}
+                <img
+                  src={convo.avatar}
+                  alt=""
+                  className="w-12 h-12 rounded-full"
+                  aria-hidden="true"
+                />
+                {convo.online && (
+                  <span className="sr-only">Online</span>
+                )}
+                <div 
+                  className={`absolute bottom-0 right-0 w-3 h-3 rounded-full border-2 border-white ${
+                    convo.online ? 'bg-green-500' : 'bg-gray-300'
+                  }`}
+                  aria-hidden="true"
+                />
               </div>
-              <div className="ml-4 flex-1 min-w-0">
+              <div className="ml-3 flex-1 min-w-0">
                 <div className="flex justify-between items-center">
-                  <h3 className="font-semibold truncate text-white">{conv.name}</h3>
-                  <span className="text-xs text-white/60 flex-shrink-0">{conv.time}</span>
+                  <h2 className="font-medium text-gray-900 truncate">{convo.name}</h2>
+                  <span className="text-xs text-gray-500 flex-shrink-0 ml-2">{convo.time}</span>
                 </div>
-                <p className={`text-sm truncate ${conv.unread > 0 ? 'text-white font-medium' : 'text-white/60'}`}>
-                  {conv.lastMessage}
-                </p>
+                <p className="text-sm text-gray-500 truncate">{convo.lastMessage}</p>
               </div>
-              {conv.unread > 0 && (
-                <div className="ml-2 w-5 h-5 rounded-full bg-blue-500 text-white text-xs flex items-center justify-center font-bold flex-shrink-0">
-                  {conv.unread}
-                </div>
+              {convo.unread > 0 && (
+                <span 
+                  className="ml-2 bg-blue-500 text-white text-xs font-medium rounded-full h-5 w-5 flex items-center justify-center flex-shrink-0"
+                  aria-label={`${convo.unread} unread messages`}
+                >
+                  {convo.unread}
+                </span>
               )}
             </div>
           ))}
         </div>
-      </div>
+      </nav>
 
-      {/* Chat Area */}
-      {selectedChat ? (
-        <div className="flex-1 flex flex-col bg-gray-900/50">
-          <div className="p-3 border-b border-white/10 flex items-center sticky top-0 bg-gray-900/50 z-10">
-            <button className="md:hidden mr-2 p-2 rounded-full hover:bg-white/10" onClick={() => setSelectedChat(null)}>
-              <ArrowLeftIcon className="w-5 h-5 text-white" />
-            </button>
-            <div className="relative">
-              <img src={selectedChat.avatar} alt={selectedChat.name} className="w-10 h-10 rounded-full object-cover bg-gray-700" />
-              {selectedChat.online && <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-gray-900/50"></div>}
-            </div>
-            <div className="ml-3">
-              <h2 className="font-semibold text-white">{selectedChat.name}</h2>
-              <p className="text-xs text-green-400">{selectedChat.online ? 'Online' : ''}</p>
-            </div>
-            <div className="ml-auto">
-              <button className="p-2 rounded-full text-white/80 hover:bg-white/10">
-                <EllipsisHorizontalIcon className="w-5 h-5" />
+      {/* Chat Area - Only show on medium screens and up */}
+      <div className="hidden md:flex flex-1 flex-col">
+        {currentChat && (
+          <>
+            {/* Chat Header */}
+            <header className="p-4 border-b border-gray-200 bg-white flex justify-between items-center">
+              <div className="flex items-center">
+                <img
+                  src={currentChat.avatar}
+                  alt=""
+                  className="w-10 h-10 rounded-full"
+                  aria-hidden="true"
+                />
+                <div className="ml-3">
+                  <h2 className="font-medium text-gray-900">{currentChat.name}</h2>
+                  <p className="text-xs text-gray-500">
+                    {currentChat.online ? 'Online' : 'Offline'}
+                  </p>
+                </div>
+              </div>
+              <button 
+                type="button"
+                className="p-1 text-gray-500 hover:text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 rounded-full"
+                aria-label="More options"
+              >
+                <DotsHorizontalIcon className="h-5 w-5" aria-hidden="true" />
               </button>
-            </div>
-          </div>
+            </header>
 
-          <div ref={chatContainerRef} className="flex-1 p-6 overflow-y-auto space-y-4">
-            {selectedChat.messages.length > 0 ? (
-              selectedChat.messages.map((msg) => (
-                <div key={msg.id} className={`flex ${msg.sender === 'me' ? 'justify-end' : 'justify-start'}`}>
-                  <div className={`max-w-xs md:max-w-md lg:max-w-lg px-4 py-2.5 rounded-2xl ${msg.sender === 'me' ? 'bg-blue-600 text-white rounded-br-lg' : 'bg-white/10 text-white rounded-bl-lg'}`}>
-                    <p>{msg.text}</p>
-                    <div className={`text-xs mt-1.5 flex items-center ${msg.sender === 'me' ? 'text-blue-200 justify-end' : 'text-white/50'}`}>
-                      {msg.time}
-                      {msg.sender === 'me' && <CheckIcon className="w-4 h-4 inline ml-1" />}
+            {/* Messages */}
+            <div 
+              className="flex-1 p-4 overflow-y-auto bg-gray-50"
+              aria-live="polite"
+              aria-atomic="false"
+            >
+              <div className="space-y-4">
+                {currentChat.messages.map((msg) => (
+                  <div
+                    key={msg.id}
+                    className={`flex ${
+                      msg.sender === 'me' ? 'justify-end' : 'justify-start'
+                    }`}
+                  >
+                    <div
+                      className={`max-w-xs lg:max-w-md px-4 py-2 rounded-lg ${
+                        msg.sender === 'me'
+                          ? 'bg-blue-500 text-white rounded-br-none'
+                          : 'bg-white text-gray-800 rounded-bl-none shadow'
+                      }`}
+                    >
+                      <p>{msg.text}</p>
+                      <p
+                        className={`text-xs mt-1 ${
+                          msg.sender === 'me' ? 'text-blue-100' : 'text-gray-500'
+                        }`}
+                      >
+                        {msg.time}
+                      </p>
                     </div>
                   </div>
-                </div>
-              ))
-            ) : (
-              <div className="text-center py-16 text-white/60">No messages yet.</div>
-            )}
-          </div>
+                ))}
+              </div>
+            </div>
 
-          <div className="p-4 border-t border-white/10 bg-gray-900/50">
-            <form onSubmit={handleSendMessage} className="flex items-center space-x-3">
-              <button type="button" className="p-3 rounded-full text-white/80 hover:bg-white/10 transition">
-                <PaperClipIcon className="w-5 h-5" />
-              </button>
-              <input
-                type="text"
-                value={message}
-                onChange={(e) => setMessage(e.target.value)}
-                placeholder="Type a message..."
-                className="flex-1 px-4 py-3 rounded-full bg-white/5 border border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500 text-white placeholder:text-white/60 transition"
-              />
-              <button type="submit" className="p-3 rounded-full bg-blue-600 text-white hover:bg-blue-700 transition disabled:bg-blue-600/50 disabled:cursor-not-allowed" disabled={!message.trim()}>
-                <PaperAirplaneIcon className="w-5 h-5" />
-              </button>
+            {/* Message Input */}
+            <form 
+              onSubmit={handleSendMessage}
+              className="p-4 bg-white border-t border-gray-200"
+              aria-label="Send a message"
+            >
+              <div className="flex items-center">
+                <button 
+                  type="button"
+                  className="p-2 text-gray-500 hover:text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 rounded-full"
+                  aria-label="Attach file"
+                >
+                  <PaperClipIcon className="h-5 w-5" aria-hidden="true" />
+                </button>
+                <input
+                  type="text"
+                  value={message}
+                  onChange={(e) => setMessage(e.target.value)}
+                  placeholder="Type a message..."
+                  className="flex-1 mx-4 p-2 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  aria-label="Type a message"
+                />
+                <button
+                  type="submit"
+                  className="p-2 bg-blue-500 text-white rounded-full hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                  aria-label="Send message"
+                >
+                  <PaperAirplaneIcon className="h-5 w-5" aria-hidden="true" />
+                </button>
+              </div>
             </form>
-          </div>
-        </div>
-      ) : (
-        <div className="hidden md:flex flex-1 items-center justify-center bg-gray-900/50">
-          <div className="text-center">
-            <h2 className="text-xl font-medium text-white">Select a conversation</h2>
-            <p className="text-white/60 mt-1">Choose from your existing conversations to start chatting.</p>
-          </div>
-        </div>
-      )}
+          </>
+        )}
+      </div>
+
+      {/* Mobile Chat View - Only show on small screens */}
+      <div className="md:hidden fixed inset-0 bg-white z-10 flex flex-col" style={{ display: selectedChat !== null ? 'flex' : 'none' }}>
+        {currentChat && (
+          <>
+            <header className="p-4 border-b border-gray-200 bg-white flex items-center">
+              <button 
+                type="button"
+                onClick={() => setSelectedChat(null)}
+                className="mr-2 text-gray-500"
+                aria-label="Back to conversations"
+              >
+                ←
+              </button>
+              <img
+                src={currentChat.avatar}
+                alt=""
+                className="w-10 h-10 rounded-full"
+                aria-hidden="true"
+              />
+              <div className="ml-3">
+                <h2 className="font-medium">{currentChat.name}</h2>
+                <p className="text-xs text-gray-500">
+                  {currentChat.online ? 'Online' : 'Offline'}
+                </p>
+              </div>
+            </header>
+            
+            <div className="flex-1 p-4 overflow-y-auto">
+              <div className="space-y-4">
+                {currentChat.messages.map((msg) => (
+                  <div
+                    key={msg.id}
+                    className={`flex ${
+                      msg.sender === 'me' ? 'justify-end' : 'justify-start'
+                    }`}
+                  >
+                    <div
+                      className={`max-w-xs px-4 py-2 rounded-lg ${
+                        msg.sender === 'me'
+                          ? 'bg-blue-500 text-white rounded-br-none'
+                          : 'bg-gray-100 text-gray-800 rounded-bl-none'
+                      }`}
+                    >
+                      <p>{msg.text}</p>
+                      <p
+                        className={`text-xs mt-1 ${
+                          msg.sender === 'me' ? 'text-blue-100' : 'text-gray-500'
+                        }`}
+                      >
+                        {msg.time}
+                      </p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <form 
+              onSubmit={handleSendMessage}
+              className="p-4 border-t border-gray-200 bg-white"
+              aria-label="Send a message"
+            >
+              <div className="flex items-center">
+                <button 
+                  type="button"
+                  className="p-2 text-gray-500 hover:text-gray-700"
+                  aria-label="Attach file"
+                >
+                  <PaperClipIcon className="h-5 w-5" aria-hidden="true" />
+                </button>
+                <input
+                  type="text"
+                  value={message}
+                  onChange={(e) => setMessage(e.target.value)}
+                  placeholder="Type a message..."
+                  className="flex-1 mx-4 p-2 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  aria-label="Type a message"
+                />
+                <button
+                  type="submit"
+                  className="p-2 bg-blue-500 text-white rounded-full hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                  aria-label="Send message"
+                >
+                  <PaperAirplaneIcon className="h-5 w-5" aria-hidden="true" />
+                </button>
+              </div>
+            </form>
+          </>
+        )}
+      </div>
     </div>
   );
 };

@@ -13,6 +13,8 @@ module.exports = {
     'plugin:import/errors',
     'plugin:import/warnings',
     'plugin:prettier/recommended',
+    'react-app',
+    'react-app/jest',
   ],
   parserOptions: {
     ecmaFeatures: {
