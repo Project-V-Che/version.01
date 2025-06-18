@@ -1,6 +1,7 @@
 {
   "name": "travel-app",
   "version": "0.1.0",
+  "homepage": "https://Project-V-Che.github.io/travel-app",
   "private": true,
   "dependencies": {
     "@heroicons/react": "^2.2.0",
@@ -17,7 +18,9 @@
     "eject": "react-scripts eject",
     "analyze": "source-map-explorer 'build/static/js/*.js'",
     "lint": "eslint src --ext .js,.jsx",
-    "format": "prettier --write \"src/**/*.{js,jsx,json,css}\""
+    "format": "prettier --write \"src/**/*.{js,jsx,json,css}\"",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": [
@@ -47,6 +50,7 @@
     "eslint-plugin-prettier": "^5.5.0",
     "eslint-plugin-react": "^7.32.2",
     "eslint-plugin-react-hooks": "^4.6.0",
+    "gh-pages": "^6.3.0",
     "postcss": "^8.4.27",
     "postcss-flexbugs-fixes": "^5.0.2",
     "postcss-import": "^15.1.0",

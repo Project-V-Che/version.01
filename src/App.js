@@ -18,7 +18,7 @@ const LoadingFallback = () => (
 
 function App() {
   return (
-    <Router>
+    <Router basename="/travel-app">
       <Suspense fallback={<LoadingFallback />}>
         <div className="App min-h-screen bg-black text-white font-sans">
           <NavBar />

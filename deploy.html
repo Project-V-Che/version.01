@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Travel App</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      background-color: #000;
+      color: white;
+    }
+    .container {
+      text-align: center;
+      padding: 2rem;
+    }
+    h1 {
+      margin-bottom: 1rem;
+    }
+    a {
+      color: #4CAF50;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Travel App</h1>
+    <p>Your travel app is being deployed. Please wait...</p>
+    <p>If you see this page, please run the following commands in your terminal:</p>
+    <pre>
+      cd /Users/vlad/Documents/Programare/CascadeProjects/Final_Project_V
+      npm install -g vercel
+      vercel --prod
+    </pre>
+  </div>
+</body>
+</html>
