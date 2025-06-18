@@ -1,0 +1,70 @@
+# Block all crawling of your content in production
+User-agent: *
+Disallow: /*.json$
+Disallow: /*.map$
+Disallow: /*.env$
+Disallow: /*.git$
+Disallow: /*.gitignore$
+Disallow: /*.gitattributes$
+Disallow: /*.editorconfig$
+Disallow: /*.babelrc$
+Disallow: /*.eslintrc$
+Disallow: /*.prettierrc$
+Disallow: /*.stylelintrc$
+Disallow: /*.vscode/$
+Disallow: /*.idea/$
+Disallow: /*.DS_Store$
+Disallow: /*.log$
+Disallow: /*.tmp$
+Disallow: /*.swp$
+Disallow: /*.swo$
+Disallow: /*.swn$
+Disallow: /*.swm$
+Disallow: /*.swx$
+Disallow: /*.swn$
+Disallow: /*.swo$
+Disallow: /*.swp$
+Disallow: /*.swo$
+Disallow: /*.swp$
+
+# Allow all other content
+Allow: /
+
+# Sitemap location
+Sitemap: https://yourdomain.com/sitemap.xml
+
+# Crawl-delay parameter
+Crawl-delay: 10
+
+# Noindex for development and staging environments
+User-agent: *
+Disallow: /staging/
+Disallow: /test/
+Disallow: /dev/
+
+# Block specific directories
+Disallow: /api/
+Disallow: /admin/
+Disallow: /private/
+Disallow: /secure/
+Disallow: /config/
+Disallow: /database/
+Disallow: /vendor/
+Disallow: /node_modules/
+
+# Allow specific bots
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: Slurp
+Allow: /
+
+# Block specific bots
+User-agent: Baiduspider
+Disallow: /
+
+User-agent: Yandex
+Disallow: /
