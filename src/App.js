@@ -1,6 +1,7 @@
 import React, { Suspense, lazy } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import NavBar from './components/navigation/NavBar';
+
+import NavBar from './components/navigation/NavBar/NavBar';
 
 // Lazy load pages for better performance
 const ExplorePage = lazy(() => import('./pages/ExplorePage'));
@@ -18,7 +19,7 @@ const LoadingFallback = () => (
 
 function App() {
   return (
-    <Router basename="/travel-app">
+    <Router>
       <Suspense fallback={<LoadingFallback />}>
         <div className="App min-h-screen bg-black text-white font-sans">
           <NavBar />

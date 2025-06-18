@@ -19,10 +19,28 @@ import {
 } from '@heroicons/react/24/solid';
 
 export const NAV_TABS = [
-  { id: 'explore', label: 'Explore', href: '/explore', icon: MagnifyingGlassIcon, iconSolid: MagnifyingGlassSolid },
+  {
+    id: 'explore',
+    label: 'Explore',
+    href: '/explore',
+    icon: MagnifyingGlassIcon,
+    iconSolid: MagnifyingGlassSolid,
+  },
   { id: 'wishlist', label: 'Wishlist', href: '/wishlist', icon: HeartIcon, iconSolid: HeartSolid },
-  { id: 'bookings', label: 'Bookings', href: '/bookings', icon: BriefcaseIcon, iconSolid: BriefcaseSolid },
-  { id: 'messages', label: 'Messages', href: '/messages', icon: ChatBubbleLeftEllipsisIcon, iconSolid: ChatSolid },
+  {
+    id: 'bookings',
+    label: 'Bookings',
+    href: '/bookings',
+    icon: BriefcaseIcon,
+    iconSolid: BriefcaseSolid,
+  },
+  {
+    id: 'messages',
+    label: 'Messages',
+    href: '/messages',
+    icon: ChatBubbleLeftEllipsisIcon,
+    iconSolid: ChatSolid,
+  },
   { id: 'profile', label: 'Profile', href: '#', icon: UserIcon, iconSolid: UserSolid }, // Profile is not a page, it opens a modal
 ];
 

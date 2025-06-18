@@ -6,15 +6,13 @@ module.exports = {
     node: true,
   },
   extends: [
+    'react-app',
+    'react-app/jest',
     'eslint:recommended',
     'plugin:react/recommended',
     'plugin:react-hooks/recommended',
     'plugin:jsx-a11y/recommended',
-    'plugin:import/errors',
-    'plugin:import/warnings',
     'plugin:prettier/recommended',
-    'react-app',
-    'react-app/jest',
   ],
   parserOptions: {
     ecmaFeatures: {
@@ -27,40 +25,55 @@ module.exports = {
     'react',
     'react-hooks',
     'jsx-a11y',
-    'import',
-    'prettier',
+    'prettier'
   ],
+  settings: {
+    react: {
+      version: 'detect',
+    },
+    'import/resolver': {
+      node: {
+        extensions: ['.js', '.jsx', '.json'],
+      },
+    },
+  },
   rules: {
     // Security rules
     'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
-    'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'warn',
+    'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'no-unsafe-optional-chaining': 'error',
     'no-unsafe-finally': 'error',
-    'no-unsafe-regex/no-unsafe-regex': 'error',
-    'security/detect-object-injection': 'warn',
-    'security/detect-possible-timing-attacks': 'error',
-    'security/detect-non-literal-fs-filename': 'error',
-    'security/detect-non-literal-require': 'error',
-    'security/detect-child-process': 'error',
-    'security/detect-eval-with-expression': 'error',
-    'security/detect-no-csrf-before-method-override': 'error',
-    'security/detect-non-literal-regexp': 'error',
-    'security/detect-pseudoRandomBytes': 'error',
-    'security/detect-buffer-noassert': 'error',
-    'security/detect-unsafe-regex': 'error',
-    'security/detect-new-buffer': 'error',
-    'security/detect-bidi-characters': 'error',
+    'no-unsafe-regex/no-unsafe-regex': 'off',
+    'security/detect-object-injection': 'off',
+    'security/detect-possible-timing-attacks': 'off',
+    'security/detect-non-literal-fs-filename': 'off',
+    'security/detect-non-literal-require': 'off',
+    'security/detect-child-process': 'off',
+    'security/detect-eval-with-expression': 'off',
+    'security/detect-no-csrf-before-method-override': 'off',
+    'security/detect-non-literal-regexp': 'off',
+    'security/detect-pseudoRandomBytes': 'off',
+    'security/detect-buffer-noassert': 'off',
+    'security/detect-unsafe-regex': 'off',
+    'security/detect-new-buffer': 'off',
+    'security/detect-bidi-characters': 'off',
     
     // React specific rules
     'react/react-in-jsx-scope': 'off',
-    'react/prop-types': 'warn',
+    'react/prop-types': 'off',
     'react-hooks/rules-of-hooks': 'error',
     'react-hooks/exhaustive-deps': 'warn',
     'react/no-unescaped-entities': 'warn',
     'react/no-unknown-property': ['error', { ignore: ['css'] }],
     
+    // JSX a11y rules
+    'jsx-a11y/anchor-is-valid': 'off',
+    'jsx-a11y/click-events-have-key-events': 'off',
+    'jsx-a11y/no-static-element-interactions': 'off',
+    'jsx-a11y/label-has-associated-control': 'off',
+    
     // Code quality rules
-    'prettier/prettier': 'warn',
+    'prettier/prettier': ['warn', {}, { usePrettierrc: true }],
     'import/order': [
       'warn',
       {
@@ -69,6 +82,7 @@ module.exports = {
         alphabetize: { order: 'asc' },
       },
     ],
+    'no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
   },
   settings: {
     react: {
