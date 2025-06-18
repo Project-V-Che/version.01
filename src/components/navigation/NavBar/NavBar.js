@@ -94,17 +94,17 @@ const NavBar = () => {
             </button>
             <div className="mt-6 space-y-2 text-sm">
               {PROFILE_MENU_ITEMS.map(item => (
-                <a
-                  href="#"
+                <button
                   key={item.id}
-                  className="flex items-center justify-between px-3 py-3 bg-white/5 rounded-lg hover:bg-white/10 transition"
+                  type="button"
+                  className="flex items-center justify-between px-3 py-3 bg-white/5 rounded-lg hover:bg-white/10 transition w-full text-left"
                 >
                   <div className="flex items-center gap-3">
                     <item.icon className="h-5 w-5 text-white/70" />
                     <span>{item.label}</span>
                   </div>
                   <ArrowRightIcon className="h-4 w-4 text-white/50" />
-                </a>
+                </button>
               ))}
             </div>
           </div>
